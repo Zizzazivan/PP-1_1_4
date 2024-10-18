@@ -26,19 +26,14 @@ public class Util {
             configuration.setProperty("hibernate.connection.username", "root");
             configuration.setProperty("hibernate.connection.password", "root1234");
 
-            // Указываем диалект для MySQL
             configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 
-            // Логирование SQL запросов
             configuration.setProperty("hibernate.show_sql", "true");
 
-            // Управление схемой базы данных (например, update: обновляет схему)
             configuration.setProperty("hibernate.hbm2ddl.auto", "none");
 
-            // Указываем классы сущностей
-            configuration.addAnnotatedClass(User.class); // добавляем наш класс User как сущность
+            configuration.addAnnotatedClass(User.class);
 
-            // Создаем сервисный регистр и фабрику сессий
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
 
@@ -50,11 +45,12 @@ public class Util {
     }
 
     public static Connection getConnection(String url, String user, String password) throws SQLException {
-        Connection connection = null;
+        Connection connection;
         try {
             connection = DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         return connection;
